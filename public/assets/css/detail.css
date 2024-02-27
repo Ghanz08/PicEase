@@ -1,0 +1,62 @@
+.btn-detail {
+  background-color: rgb(48, 104, 157);
+  color: #ffffff;
+  border: 1px solid rgb(48, 104, 157);
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-detail-1 {
+  background-color: rgb(48, 104, 157);
+  color: #ffffff;
+  border: 1px solid rgb(48, 104, 157);
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-like {
+  padding-left: 1;
+  background-color: rgba(0, 0, 0, 0.096);
+  color: rgb(255, 255, 255);
+  border-radius: 100%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.btn-like:hover {
+  background-color: #ffffff;
+  color: rgb(48, 104, 157);
+}
+
+.btn-unlike {
+  padding-left: 1;
+  background-color: rgba(0, 0, 0, 0.096);
+  color: rgb(255, 0, 0);
+  border-radius: 100%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.btn-unlike:hover {
+  background-color: #ffffff;
+  color: rgb(194, 31, 31);
+}
+
+.btn-detail:hover {
+  background-color: #ffffff;
+  color: rgb(48, 104, 157);
+}
