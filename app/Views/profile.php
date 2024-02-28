@@ -9,8 +9,10 @@
 <main class="container mt-4">
     <section id="header" class="row">
         <section class="col-md-4 col-3 mt-4 text-center">
-            <img src="/assets/images/user/<?= $user['foto']; ?>" class="rounded-circle img-profile img-fluid" alt="..."
-                width="200px" height="200px" />
+            <div class="img-profile">
+                <img src="/assets/images/user/<?= $user['foto']; ?>" class="rounded-circle rounded-image round" width="250" height="250" alt="..."
+                    />
+            </div>
         </section>
         <section class="col-md-8 col-7 ps-4 mt-3">
             <div class="d-flex justify-content-between align-items-center">
@@ -59,11 +61,13 @@
     <div class="tab-pane active" id="posts">
         <?php if ($user['id_user'] == session()->get('id_user')): ?>
             <div class="gridds-button">
-                <div class="d-flex justify-content-end mb-3">
-                    <div class="ms-auto"> <!-- Use ms-auto to push content to the right -->
-                        <button class="btn btn-detail" onclick="redirectToPage('/create/')">
-                            <i class="fa-solid fa-plus me-1"></i> Create Photo
-                        </button>
+                <div class="box">
+                    <div class="d-flex justify-content-end mb-3">
+                        <div class="ms-auto"> <!-- Use ms-auto to push content to the right -->
+                            <button class="btn btn-detail" onclick="redirectToPage('/create/')">
+                                <i class="fa-solid fa-plus me-1"></i> Create Photo
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

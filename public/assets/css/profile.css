@@ -329,22 +329,17 @@ a:hover {
 .rounded-img {
   width: 250px;
   height: 250px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  outline: none;
   object-fit: cover;
-  border-radius: 100%;
-  cursor: zoom-in;
-  -webkit-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
-  -moz-box-shadow: 0px 10px 34px -15px rgb(48, 104, 157);
-  box-shadow: 0 0 12px rgb(48, 104, 157);
+  user-select: none; /* Mencegah pemilihan teks */
 }
 
 .img-profile {
-  width: 250px;
-  height: 250px;
+  border: none;
+  background: transparent;
+  max-width: 100%;
   object-fit: cover;
-  user-select: none; /* Mencegah pemilihan teks */
-  border-radius: 50px;
-  cursor: zoom-in;
-  -webkit-box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
-  -moz-box-shadow: 0px 10px 34px -15px rgb(48, 104, 157);
-  box-shadow: 0 0 12px rgb(48, 104, 157);
 }
