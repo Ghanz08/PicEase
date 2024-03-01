@@ -22,6 +22,19 @@
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
+                    
+                    <?php if (session()->getFlashdata('success')): ?>
+                        <div class="alert alert-success" id="alert">
+                            <?= session()->getFlashdata('success') ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if (session()->getFlashdata('error')) { ?>
+                        <div class="alert alert-danger" id="alert" role="alert">
+                            <?= session()->getFlashdata('error') ?>
+                        </div>
+                    <?php } ?>
+
                     <form action="/auth/valid_login" method="POST" class="signin-form">
                         <div class="form-group mb-3">
                             <label class="label" for="name">Username</label>
@@ -36,7 +49,7 @@
                                 In</button>
                         </div>
                     </form>
-                    <p class="text-center">Not a member? <a data-toggle="tab" href="/register">Sign Up</a></p>
+                    <p class="text-center">Tidak punya akun? <a data-toggle="tab" href="/register">Sign Up</a></p>
                 </div>
             </div>
         </div>

@@ -15,6 +15,13 @@
                             <h3 class="mb-4">Register</h3>
                         </div>
                     </div>
+                    <?php if (session()->getFlashdata('errors')): ?>
+                        <div class="alert alert-danger" id="alert">
+                            <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                                <?= esc($error) ?><br>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                     <form action="/auth/valid_register" method="POST" class="signin-form">
                         <div class="form-group mb-3">
                             <label class="label" for="nama">Nama</label>
@@ -36,8 +43,8 @@
                             <div class="col-md-6">
                                 <label class="label" for="password">Password</label>
                                 <div class="input-group">
-                                    <input type="password" name="password" class="form-control" id="password" placeholder="Password"
-                                        required>
+                                    <input type="password" name="password" class="form-control" id="password"
+                                        placeholder="Password" required>
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="fa-regular fa-eye-slash" id="togglePassword"></i>
@@ -48,8 +55,8 @@
                             <div class="col-md-6">
                                 <label class="label" for="confirm_password">Confirm</label>
                                 <div class="input-group">
-                                    <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="Confirm..."
-                                        required>
+                                    <input type="password" name="confirm_password" class="form-control"
+                                        id="confirm_password" placeholder="Confirm..." required>
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="fa-regular fa-eye-slash" id="togglePassword1"></i>
@@ -98,6 +105,35 @@
         password1.setAttribute('type', type1);
         // Toggle the eye and bi-eye icon
         this.classList.toggle('bi-eye');
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        class AlertDisappearance {
+            constructor(element, delay) {
+                this.element = element;
+                this.delay = delay;
+            }
+
+            start() {
+                setTimeout(() => {
+                    this.hide();
+                }, this.delay);
+            }
+
+            hide() {
+                $(this.element).slideUp(500, function () {
+                    $(this).fadeOut(500, function () {
+                        $(this).remove();
+                    });
+                });
+            }
+        }
+
+        const alertElement = document.getElementById("alert");
+        const alertDisappearance = new AlertDisappearance(alertElement, 4000); // 3000 milliseconds (3 seconds)
+        alertDisappearance.start();
     });
 </script>
 <?= $this->endSection(); ?>

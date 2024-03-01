@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div class="col-12 d-flex justify-content-center mb-5">
+            <div class=" d-flex justify-content-center mb-5">
                 <label for="foto" id="drop-area">
                     <input type="file" accept="image/*" id="foto" name="foto" hidden required />
                     <div id="img-view">
@@ -43,7 +43,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-center mb-3">
-                <div class=" w-50 border-mix melengkung">
+                <div class=" w-100 border-mix melengkung">
                     <div class="containerPost">
                         <div class="row">
                             <div class="col-12">

@@ -34,6 +34,10 @@ class User extends BaseController
     // method untuk upload gambar
     public function uploadFoto()
     {
+        if (!$this->session->get('logged_in')) {
+            $this->session->setFlashdata('error', 'Silakan login untuk mengakses fitur ini.');
+            return redirect()->to('/login');
+        }   
         // ambil title dan description dari form
         $title = $this->request->getPost('title');
         $description = $this->request->getPost('description');
@@ -221,6 +225,10 @@ class User extends BaseController
     //method untuk like foto
     public function likeFoto($id)
     {
+        if (!$this->session->get('logged_in')) {
+            $this->session->setFlashdata('error', 'Silakan login untuk mengakses fitur ini.');
+            return redirect()->to('/login');
+        }   
         // Cek apakah pengguna sudah menyukai foto
         if (!$this->likeModel->userLikedPhoto($this->session->get('user_id'), $id)) {
             // Jika belum, tambahkan like
@@ -232,6 +240,10 @@ class User extends BaseController
 
     public function unlikeFoto($id)
     {
+        if (!$this->session->get('logged_in')) {
+            $this->session->setFlashdata('error', 'Silakan login untuk mengakses fitur ini.');
+            return redirect()->to('/login');
+        }   
         // Hapus like jika ada
         $this->likeModel->removeLike($this->session->get('id_user'), $id);
 

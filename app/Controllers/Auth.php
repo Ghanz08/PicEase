@@ -19,69 +19,88 @@ class Auth extends BaseController
         $this->session = session();
     }
     public function valid_register()
-    {
-        //ambil data dari form
-        $nama = $this->request->getPost('nama');
-        $username = $this->request->getPost('username');
-        $email = $this->request->getPost('email');
-        $alamat = $this->request->getPost('alamat');
-        $password = $this->request->getPost('password');
-        $foto = 'default.jpg';
-        $confirm_password = $this->request->getPost('confirm_password');
+{
+    //ambil data dari form
+    $nama = $this->request->getPost('nama');
+    $username = $this->request->getPost('username');
+    $email = $this->request->getPost('email');
+    $alamat = $this->request->getPost('alamat');
+    $password = $this->request->getPost('password');
+    $foto = 'default.jpg';
+    $confirm_password = $this->request->getPost('confirm_password');
 
-        //validasi data
-        $data = [
-            'nama' => $nama,
-            'username' => $username,
-            'email' => $email,
-            'alamat' => $alamat,
-            'password' => $password,
-            'confirm_password' => $confirm_password,
-        ];
-        if (!$this->validation->run($data, 'valid_register')) {
-            //jika validasi gagal
-            session()->setFlashdata('errors', $this->validation->getErrors());
+    //validasi data
+    $data = [
+        'nama' => $nama,
+        'username' => $username,
+        'email' => $email,
+        'alamat' => $alamat,
+        'password' => $password,
+        'confirm_password' => $confirm_password,
+    ];
+
+    // Menjalankan validasi dengan rule set 'valid_register'
+    if (!$this->validation->run($data, 'valid_register')) {
+        // Jika validasi gagal, ambil semua kesalahan validasi
+        $errors = $this->validation->getErrors();
+
+        // Menampilkan pesan kesalahan sesuai dengan aturan validasi
+        $errorMessages = [];
+        if (isset($errors['username'])) {
+            $errorMessages[] = 'Username harus memiliki panjang antara 5 dan 255 karakter.';
+        }
+        if (isset($errors['email'])) {
+            $errorMessages[] = 'Format email tidak valid.';
+        }
+        if (isset($errors['password'])) {
+            $errorMessages[] = 'Password harus memiliki panjang minimal 8 karakter.';
+        }
+        if (isset($errors['confirm_password'])) {
+            $errorMessages[] = 'Konfirmasi password tidak cocok dengan password.';
+        }
+
+        // Set flash data dengan pesan kesalahan yang dihasilkan
+        session()->setFlashdata('errors', $errorMessages);
+        return redirect()->to('/register');
+    } else {
+        // Jika semua validasi berhasil, cek kesesuaian password
+        if ($password != $confirm_password) {
+            session()->setFlashdata('errors', ['Password dan Confirm Password harus sama!!']);
             return redirect()->to('/register');
         } else {
-            // jika password dan confirm password tidak sama maka kembali ke halaman register
-            if ($password != $confirm_password) {
-                session()->setFlashdata('errors', ['Password dan Confirm Password harus sama']);
-                return redirect()->to('/register');
-            } else {
-                //jika validasi berhasil
-                $password_hash = password_hash($password, PASSWORD_DEFAULT);
+            // Jika password cocok, lanjutkan proses registrasi
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
+            $token = bin2hex(random_bytes(10));
 
-                $token = bin2hex(random_bytes(10));
+            // Simpan data ke database
+            $data = [
+                'nama' => $nama,
+                'username' => $username,
+                'email' => $email,
+                'alamat' => $alamat,
+                'password' => $password_hash,
+                'foto' => $foto,
+                'active' => $token,
+            ];
+            $simpan = $this->userModel->insert($data);
+            $user = $this->userModel->where('email', $email)->first();
 
+            // Kirim email aktivasi
+            $email = \Config\Services::email();
+            $email->setTo($data['email']);
+            $email->setFrom('gzulhusniganteng@gmail.com', 'Picease Official');
+            $email->setSubject('Registrasi Akun');
+            $email->setMessage('Selamat Datang ' . $data['nama'] . ' di Picease, akun anda berhasil dibuat. Silahkan Activasi akun anda dengan klik link berikut :' . base_url() . 'auth/activate/' . $token);
+            $email->send();
 
-
-                //simpan data ke database
-                $data = [
-                    'nama' => $nama,
-                    'username' => $username,
-                    'email' => $email,
-                    'alamat' => $alamat,
-                    'password' => $password_hash,
-                    'foto' => $foto,
-                    'active' => $token,
-                ];
-                $simpan = $this->userModel->insert($data);
-                $user = $this->userModel->where('email', $email)->first();
-
-                $email = \Config\Services::email();
-                $email->setTo($data['email']);
-                $email->setFrom('gzulhusniganteng@gmail.com', 'Picease Official');
-                $email->setSubject('Registrasi Akun');
-                $email->setMessage('Selamat Datang ' . $data['nama'] . ' di Picease, akun anda berhasil dibuat. Silahkan Activasi akun anda dengan klik link berikut :' . base_url() . 'auth/activate/' . $token);
-                $email->send();
-
-                if ($simpan) {
-                    session()->setFlashdata('success', 'Register berhasil! Silahkan login untuk mengakses data');
-                    return redirect()->to('/login');
-                }
+            if ($simpan) {
+                session()->setFlashdata('success', 'Register berhasil! Silahkan aktivasi akun anda di email anda');
+                return redirect()->to('/login');
             }
         }
     }
+}
+
 
     public function valid_login()
     {

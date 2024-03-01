@@ -50,10 +50,6 @@ class Home extends BaseController
 
     public function create()
     {
-        // make sure user is logged in
-        if (!$this->session->get('logged_in')) {
-            return redirect()->to('/login');
-        }
         $userid = $this->userModel->getUser();
         $id_user = $this->session->get('id_user');
         $user = $this->userModel->getUser($id_user);
@@ -65,10 +61,10 @@ class Home extends BaseController
 
     public function profile($id)
     {
-        // make sure user is logged in
         if (!$this->session->get('logged_in')) {
+            $this->session->setFlashdata('error', 'Silakan login untuk mengakses fitur ini.');
             return redirect()->to('/login');
-        }
+        }   
         // Cek apakah pengguna sudah menyukai foto
         $liked = $this->likeModel->userLikedPhoto($this->session->get('id_user'), $id);
         $user = $this->userModel->getUser($id);
@@ -84,10 +80,10 @@ class Home extends BaseController
 
     public function detail($id)
     {
-        // make sure user is logged in
         if (!$this->session->get('logged_in')) {
+            $this->session->setFlashdata('error', 'Silakan login untuk mengakses fitur ini.');
             return redirect()->to('/login');
-        }
+        }   
         $comment = $this->commentModel->getCommentByFoto($id);
         $foto = $this->fotoModel->getFoto($id);
         $user = $this->userModel->getUser($foto['id_user']);
@@ -129,10 +125,10 @@ class Home extends BaseController
 
     public function editFoto($id)
     {
-        // make sure user is logged in
         if (!$this->session->get('logged_in')) {
+            $this->session->setFlashdata('error', 'Silakan login untuk mengakses fitur ini.');
             return redirect()->to('/login');
-        }
+        }   
         $foto = $this->fotoModel->getFoto($id);
         $userid = $this->userModel->getUser($id);
         $id_user = $this->session->get('id_user');
@@ -145,10 +141,10 @@ class Home extends BaseController
 
     public function create_album()
     {
-        // make sure user is logged in
         if (!$this->session->get('logged_in')) {
+            $this->session->setFlashdata('error', 'Silakan login untuk mengakses fitur ini.');
             return redirect()->to('/login');
-        }
+        }   
         return view('form_create_album');
     }
 
@@ -205,8 +201,9 @@ class Home extends BaseController
     public function editAlbum($id)
     {
         if (!$this->session->get('logged_in')) {
+            $this->session->setFlashdata('error', 'Silakan login untuk mengakses fitur ini.');
             return redirect()->to('/login');
-        }
+        }   
         $userid = $this->userModel->getUser();
         $id_user = $this->session->get('id_user');
         $user = $this->userModel->getUser($id_user);
@@ -219,8 +216,9 @@ class Home extends BaseController
     public function editProfile($id)
     {
         if (!$this->session->get('logged_in')) {
+            $this->session->setFlashdata('error', 'Silakan login untuk mengakses fitur ini.');
             return redirect()->to('/login');
-        }
+        }   
         $userid = $this->userModel->getUser();
         $id_user = $this->session->get('id_user');
         $user = $this->userModel->getUser($id_user);
