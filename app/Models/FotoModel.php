@@ -46,6 +46,13 @@ class FotoModel extends Model
             ->where(['fotoalbum.id_album' => $id])
             ->findAll();
     }
+
+    // Metode baru untuk pencarian berdasarkan nama
+    public function searchByName($name)
+    {
+        return $this->like('title', $name) // Melakukan pencarian judul yang mengandung kata kunci yang diberikan
+            ->findAll();
+    }
 }
 
 
